@@ -34,8 +34,42 @@ def jugar():
         cambiarJugador()
     if ganador == "X" or ganador == "O":
         print("Ganaron las: " + ganador)
+        volverAJugar()
     elif ganador == None:
         print("Empatados!")
+        volverAJugar()
+
+def volverAJugar():
+    #Definicion de variable para acceso
+    global tablero
+    #Captación de respuesta del usuario
+    respuesta = input("Desea volver a jugar? s/n ")
+    while respuesta not in ["s","n"]:
+        respuesta = input("Desea volver a jugar? s/n")
+    #Si decide volver a jugar, blanquea el tablero y vuelve a jugar
+    if respuesta == "s":
+        reiniciar()
+        jugar()
+    #No quiere volver a jugar y termina el programa.
+    else:
+        return
+
+def reiniciar():
+    global enPartida, ganador, jugadorActual, tablero
+    # Estado del juego
+    enPartida = True
+
+    # quien gano?
+    ganador = None
+
+    # De quien es el turno?
+
+    jugadorActual = "X"
+
+    # Definir el tablero de juego
+    tablero = ["-", "-", "-",
+               "-", "-", "-",
+               "-", "-", "-"]
 
 
 def cambiarJugador():
