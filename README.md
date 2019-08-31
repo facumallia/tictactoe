@@ -11,6 +11,8 @@ Repositorio dedicado al test técnico para Darwoft
                                          
 3- No se realizó persistencia de las partidas porque se terminó el tiempo.
 
+4- Tiempo utilizado: 2.30 Horas lineales.
+
 # Enunciado
 The Game
 Develop the classic game Tic-Tac-Toe
