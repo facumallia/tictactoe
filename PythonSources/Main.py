@@ -39,6 +39,42 @@ def jugar():
         print("Empatados!")
         volverAJugar()
 
+def computadora():
+    #Definicion de variable para acceso
+    global tablero
+    #Retorna los movimientos posibles en el tablero
+    movimientosPosibles =  [x for x, letra in enumerate(tablero) if letra == "-" and x != 0]
+    movimiento = 0
+    #Chekeo si hay esquinas libres dentro de los movimientos posibles
+    esquinas = []
+    for i in movimientosPosibles:
+        if i in [1,3,7,9]:
+            esquinas.append(i)
+    if len(esquinas) > 0:
+        movimiento = aleatorio(esquinas)
+        return movimiento
+    #Chekeo si el 5 esta libre dentro de los movimientos posibles
+    if 5 in movimientosPosibles:
+        movimiento = 5
+        return movimiento
+    #Chekeo si hay bordes libres dentro de los movimientos posibles
+    bordes = []
+    for i in movimientosPosibles:
+        if i in [2,4,6,9]:
+            bordes.append(i)
+    if len(bordes) > 0:
+        movimiento = aleatorio(bordes)
+        return movimiento
+
+def aleatorio(numero):
+    #importo libreria random
+    import random
+    #Chekeo la longitud del arreglo
+    longitud = len(numero)
+    #Genero un numero aleatorio entre 0 y la longitud del arreglo
+    r = random.randrange(0,longitud)
+    return numero[r]
+
 def volverAJugar():
     #Definicion de variable para acceso
     global tablero
@@ -177,28 +213,38 @@ def hayEmpate():
     return
 
 def turnos(jugadorActual):
+    if jugadorActual =="X":
+        #Mostrar de quien es el turno
+        print("Es el turno de: " + jugadorActual)
+        #Tomar la posicion deseada por el jugador desde el teclado
+        posicion = input("Ingrese un número del 1 al 9: ")
 
-    #Mostrar de quien es el turno
-    print("Es el turno de: " + jugadorActual)
-    #Tomar la posicion deseada por el jugador desde el teclado
-    posicion = input("Ingrese un número del 1 al 9: ")
+        casilleroValido = False
+        while not casilleroValido:
+            #Validar input del jugador (una RegEx era matar una hormiga con un lanzacohetes)
+            while posicion not in ["1","2","3","4","5","6","7","8","9"]:
+                posicion = input("Ingrese un número del 1 al 9: ")
+            #Definir la posicion segun el indice del arreglo
+            posicion = int(posicion) -1
+            #Si hay un "-", el casillero está libre y es un movimiento válido
+            if tablero[posicion] == "-":
+                casilleroValido = True
+            #Hay otra ficha en el casillero!
+            else:
+                print("Elegiste un casillero ocupado! Intentá de nuevo!")
+            # Marcar la jugada en el tablero
+            tablero[posicion] = jugadorActual
+    elif jugadorActual == "O":
+        #Defino la jugada de la computadora
+        jugadaCompu = computadora()
+        #Chekeo si el movimiento es válido
+        casilleroValidoCompu = False
+        while not casilleroValidoCompu:
+            if tablero[jugadaCompu] == "-":
+                casilleroValidoCompu = True
+            tablero[jugadaCompu] = jugadorActual
+        print("Movieron las 'O'")
 
-    casilleroValido = False
-    while not casilleroValido:
-        #Validar input del jugador (una RegEx era matar una hormiga con un lanzacohetes)
-        while posicion not in ["1","2","3","4","5","6","7","8","9"]:
-            posicion = input("Ingrese un número del 1 al 9: ")
-        #Definir la posicion segun el indice del arreglo
-        posicion = int(posicion) -1
-        #Si hay un "-", el casillero está libre y es un movimiento válido
-        if tablero[posicion] == "-":
-            casilleroValido = True
-        #Hay otra ficha en el casillero!
-        else:
-            print("Elegiste un casillero ocupado! Intentá de nuevo!")
-
-    #Marcar la jugada en el tablero
-    tablero[posicion] = jugadorActual
     #Mostrar el tablero actualizado
     mostrarTablero()
 
