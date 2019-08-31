@@ -1,8 +1,14 @@
+#Importaciones de módulos
+import time
 #Variables Globales
 
 #Estado del juego
 enPartida = True
 
+#Inicio del juego
+inicio = None
+#fin del juego
+fin = None
 #quien gano?
 ganador = None
 
@@ -21,9 +27,13 @@ def mostrarTablero():
     print(tablero[6] + " | " + tablero[7] + " | " + tablero[8])
 
 def jugar():
-
+    #importaciones para el acceso de variables
+    global inicio
+    global fin
     #Mostrar el tablero inicial
     mostrarTablero()
+    #Iniciar tiempo
+    inicio = time.time()
 
     while enPartida:
         #Maneja el turno del jugador
@@ -33,12 +43,19 @@ def jugar():
         #Cambia el turno del jugador
         cambiarJugador()
     if ganador == "X" or ganador == "O":
-        print("Ganaron las: " + ganador)
+        #calculo de tiempo final
+        fin = time.time()
+        print("Ganaron las: " + ganador + " Tiempo de partida: " + str(calcularTiempoPartida(inicio, fin))+ " Segundos")
         volverAJugar()
     elif ganador == None:
-        print("Empatados!")
+        #Calculo de tiempo final
+        fin = time.time()
+        print("Empatados!" + " Tiempo de partida: " + str(calcularTiempoPartida(inicio, fin))+ " Segundos")
         volverAJugar()
-
+def calcularTiempoPartida(inicio, fin):
+    #Calculo de tiempo total de partida
+    total = fin - inicio
+    return total
 def computadora():
     #Definicion de variable para acceso
     global tablero
@@ -91,7 +108,11 @@ def volverAJugar():
         return
 
 def reiniciar():
-    global enPartida, ganador, jugadorActual, tablero
+    global enPartida, ganador, jugadorActual, tablero, inicio, fin
+    # Inicio del juego
+    inicio = None
+    # fin del juego
+    fin = None
     # Estado del juego
     enPartida = True
 
